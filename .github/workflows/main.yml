@@ -1,14 +1,20 @@
-name: CI Pipeline
+name: CI-CD Pipeline
 
 on: [push]
 
 jobs:
-  build:
+  build-and-deploy:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Get code
+      - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: Build Docker Image
+      - name: Build Docker image
         run: docker build -t myapp .
+
+      - name: Run container
+        run: docker run -d -p 8080:80 myapp
+
+      - name: Check running containers
+        run: docker ps
